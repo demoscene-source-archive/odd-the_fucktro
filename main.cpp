@@ -46,10 +46,10 @@ void main() {
 
 	bool done = false;
 	BASS_Start();
-	BASS_StreamPlay( music_file, 1, 0 );
+	BASS_ChannelPlay(music_file, false);
 	while (!done) {
-		long long bytes_played = BASS_ChannelGetPosition( music_file );
-		float time = bytes_played*(1.f / (44100 * 2 * 2));
+		QWORD pos = BASS_ChannelGetPosition(music_file, BASS_POS_BYTE);
+		float time = (float)BASS_ChannelBytes2Seconds(music_file, pos);
 
 		if (time < 15) {
 			memcpy( screen, logo, WIDTH*HEIGHT*4 );
